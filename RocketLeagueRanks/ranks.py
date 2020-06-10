@@ -11,10 +11,7 @@ import json
 
 class Ui_rocketleagueranks(object):
     def setupUi(self, rocketleagueranks):
-        try:
-            self.base_dir = sys._MEIPASS
-        except Exception:
-            self.base_dir = os.path.dirname(os.path.abspath(__file__))
+        self.base_dir = os.path.dirname(os.path.abspath(__file__))
         rocketleagueranks.setObjectName("rocketleagueranks")
         rocketleagueranks.resize(700, 498)
         self.centralwidget = QtWidgets.QWidget(rocketleagueranks)
@@ -52,7 +49,7 @@ class Ui_rocketleagueranks(object):
         self.favorites.setCurrentText("")
         self.favorites.setObjectName("favorites")
         self.favorites.addItem('Favorites')
-        with open(os.path.join(self.base_dir, 'dependencies', 'favorites.json'), 'r') as fav:
+        with open(os.path.join(self.base_dir, 'resources', 'favorites.json'), 'r') as fav:
             favorites_l = json.load(fav)
         self.favorites.addItems(favorites_l)
         self.favorites.activated.connect(self.fill_in_favorite)
@@ -84,7 +81,7 @@ class Ui_rocketleagueranks(object):
         self.imageRank = QtWidgets.QLabel(self.centralwidget)
         self.imageRank.setGeometry(QtCore.QRect(416, 230, 256, 256))
         self.imageRank.setText("")
-        self.imageRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'dependencies', 'imgs', 'unranked.png')))
+        self.imageRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', 'unranked.png')))
         self.imageRank.setScaledContents(True)
         self.imageRank.setObjectName("imageRank")
         self.labelError = QtWidgets.QLabel(self.centralwidget)
@@ -364,7 +361,7 @@ class Ui_rocketleagueranks(object):
             if exit_loop:
                 break
 
-        self.imageRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'dependencies', 'imgs', f'{next_rank}.png')))
+        self.imageRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', f'{next_rank}.png')))
         next_rank_mmr = rankings[next_rank]['Division I']
         self.labelRankRank.setText(str(next_rank_mmr))
         self.imageDivision.setText(next_division[-2:])
@@ -387,10 +384,10 @@ class Ui_rocketleagueranks(object):
         Adds a user to the favorites json file
         """
         favorite_user = self.playerName.text()
-        with open(os.path.join(self.base_dir, 'dependencies', 'favorites.json'), 'r') as fav:
+        with open(os.path.join(self.base_dir, 'resources', 'favorites.json'), 'r') as fav:
             favorites = json.load(fav)
         favorites.append(favorite_user)
-        with open(os.path.join(self.base_dir, 'dependencies', 'favorites.json'), 'w') as fav:
+        with open(os.path.join(self.base_dir, 'resources', 'favorites.json'), 'w') as fav:
             json.dump(favorites, fav)
         self.favorites.addItem(favorite_user)
 
@@ -400,11 +397,11 @@ class Ui_rocketleagueranks(object):
         """
         self.labelError.hide()
         favorite_user = self.favorites.currentText()
-        with open(os.path.join(self.base_dir, 'dependencies', 'favorites.json'), 'r') as fav:
+        with open(os.path.join(self.base_dir, 'resources', 'favorites.json'), 'r') as fav:
             favorites = json.load(fav)
         if favorite_user != 'Favorites':
             favorites.remove(favorite_user)
-            with open(os.path.join(self.base_dir, 'dependencies', 'favorites.json'), 'w') as fav:
+            with open(os.path.join(self.base_dir, 'resources', 'favorites.json'), 'w') as fav:
                 json.dump(favorites, fav)
             self.favorites.removeItem(self.favorites.currentIndex())
         else:
