@@ -70,7 +70,7 @@ class Ui_rocketleagueranks(object):
         self.labelRankRank.setAlignment(QtCore.Qt.AlignCenter)
         self.labelRankRank.setObjectName("labelRankRank")
         self.imageTier = QtWidgets.QLabel(self.centralwidget)
-        self.imageTier.setGeometry(QtCore.QRect(10, 240, 251, 191))
+        self.imageTier.setGeometry(QtCore.QRect(10, 220, 251, 251))
         font = QtGui.QFont()
         font.setFamily("Bookman Old Style")
         font.setPointSize(140)
@@ -81,7 +81,7 @@ class Ui_rocketleagueranks(object):
         self.imageTier.setAlignment(QtCore.Qt.AlignCenter)
         self.imageTier.setObjectName("imageTier")
         self.imageRank = QtWidgets.QLabel(self.centralwidget)
-        self.imageRank.setGeometry(QtCore.QRect(530, 215, 251, 251))
+        self.imageRank.setGeometry(QtCore.QRect(530, 220, 251, 251))
         self.imageRank.setFont(font)
         self.imageRank.setText("")
         self.imageRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', 'unranked.png')))
@@ -124,7 +124,7 @@ class Ui_rocketleagueranks(object):
         self.currentMMR.setAlignment(QtCore.Qt.AlignCenter)
         self.currentMMR.setObjectName("currentMMR")
         self.imageCurrentRank = QtWidgets.QLabel(self.centralwidget)
-        self.imageCurrentRank.setGeometry(QtCore.QRect(270, 240, 231, 201))
+        self.imageCurrentRank.setGeometry(QtCore.QRect(270, 220, 251, 251))
         self.imageCurrentRank.setText("")
         self.imageCurrentRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', 'unranked.png')))
         self.imageCurrentRank.setScaledContents(False)
@@ -189,7 +189,7 @@ class Ui_rocketleagueranks(object):
         rankings = get_mmr_rankings(ranks[mode])
 
         user = self.playerName.text()
-        url = f'https://rocketleague.tracker.network/profile/mmr/steam/{user}'
+        url = f'https://rocketleague.tracker.network/profile/steam/{user}'
         overview_page = requests.get(url)
         soup = BeautifulSoup(overview_page.text, 'lxml')
         try:
@@ -203,7 +203,8 @@ class Ui_rocketleagueranks(object):
         data = json.dumps({'playerIds': [player_id]})
         live_data = requests.post(live_url, data=data).json()
         for stat in live_data['players'][0]['Stats']:
-            if mode[0] in stat['Value']['Label']:
+            if mode[0] in stat['Value']['Label'] and 'Solo' not in stat['Value']['Label']:
+                print(stat)
                 mmr = stat['Value']['ValueInt']
                 break
         next_rank = next_tier = 'Grand Champion'
@@ -219,7 +220,6 @@ class Ui_rocketleagueranks(object):
                 next_rank = rank
 
         self.imageRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', f'{next_rank}.png')))
-        next_rank_mmr = rankings[next_rank]['Division I']
         self.labelRankRank.setText(str(next_rank_mmr))
         self.imageTier.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', f'{next_tier}.png')))
         self.labelTierRank.setText(str(next_tier_mmr))
@@ -283,7 +283,7 @@ def get_mmr_rankings(mode):
         if rank_name == 'Unranked':
             continue
         mmr = rank.find('div', class_='division-label', text=re.compile(r"\sDivision I\s")).parent.find('div', class_='division').div.text.strip()
-        mmr_rankings[rank_name] = mmr
+        mmr_rankings[rank_name] = int(mmr)
 
     return mmr_rankings
 
