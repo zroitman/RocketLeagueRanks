@@ -7,7 +7,6 @@ import sys
 import requests
 import json
 
-# 76561198871336776
 
 class Ui_rocketleagueranks(object):
     def setupUi(self, rocketleagueranks):
@@ -70,21 +69,21 @@ class Ui_rocketleagueranks(object):
         self.labelRankRank.setAlignment(QtCore.Qt.AlignCenter)
         self.labelRankRank.setObjectName("labelRankRank")
         self.imageTier = QtWidgets.QLabel(self.centralwidget)
-        self.imageTier.setGeometry(QtCore.QRect(10, 220, 251, 251))
+        self.imageTier.setGeometry(QtCore.QRect(0, 180, 316, 316))
         font = QtGui.QFont()
         font.setFamily("Bookman Old Style")
         font.setPointSize(140)
         font.setItalic(False)
         self.imageTier.setFont(font)
         self.imageTier.setText("")
-        self.imageTier.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', 'unranked.png')))
+        self.imageTier.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', 'unranked.png')).scaledToHeight(256).scaledToWidth(256))
         self.imageTier.setAlignment(QtCore.Qt.AlignCenter)
         self.imageTier.setObjectName("imageTier")
         self.imageRank = QtWidgets.QLabel(self.centralwidget)
-        self.imageRank.setGeometry(QtCore.QRect(530, 220, 251, 251))
+        self.imageRank.setGeometry(QtCore.QRect(500, 180, 316, 316))
         self.imageRank.setFont(font)
         self.imageRank.setText("")
-        self.imageRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', 'unranked.png')))
+        self.imageRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', 'unranked.png')).scaledToHeight(256).scaledToWidth(256))
         self.imageRank.setAlignment(QtCore.Qt.AlignCenter)
         self.imageRank.setObjectName("imageRank")
         self.labelError = QtWidgets.QLabel(self.centralwidget)
@@ -124,9 +123,9 @@ class Ui_rocketleagueranks(object):
         self.currentMMR.setAlignment(QtCore.Qt.AlignCenter)
         self.currentMMR.setObjectName("currentMMR")
         self.imageCurrentRank = QtWidgets.QLabel(self.centralwidget)
-        self.imageCurrentRank.setGeometry(QtCore.QRect(270, 220, 251, 251))
+        self.imageCurrentRank.setGeometry(QtCore.QRect(275, 180, 316, 316))
         self.imageCurrentRank.setText("")
-        self.imageCurrentRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', 'unranked.png')))
+        self.imageCurrentRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', 'unranked.png')).scaledToHeight(256).scaledToWidth(256))
         self.imageCurrentRank.setScaledContents(False)
         self.imageCurrentRank.setObjectName("imageCurrentRank")
         rocketleagueranks.setCentralWidget(self.centralwidget)
@@ -204,7 +203,6 @@ class Ui_rocketleagueranks(object):
         live_data = requests.post(live_url, data=data).json()
         for stat in live_data['players'][0]['Stats']:
             if mode[0] in stat['Value']['Label'] and 'Solo' not in stat['Value']['Label']:
-                print(stat)
                 mmr = stat['Value']['ValueInt']
                 break
         next_rank = next_tier = 'Grand Champion'
@@ -219,11 +217,11 @@ class Ui_rocketleagueranks(object):
                     next_tier = rank
                 next_rank = rank
 
-        self.imageRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', f'{next_rank}.png')))
+        self.imageRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', f'{next_rank}.png')).scaledToHeight(256).scaledToWidth(256))
         self.labelRankRank.setText(str(next_rank_mmr))
-        self.imageTier.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', f'{next_tier}.png')))
+        self.imageTier.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', f'{next_tier}.png')).scaledToHeight(256).scaledToWidth(256))
         self.labelTierRank.setText(str(next_tier_mmr))
-        self.imageCurrentRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', f'{current_rank}.png')))
+        self.imageCurrentRank.setPixmap(QtGui.QPixmap(os.path.join(self.base_dir, 'resources', 'imgs', f'{current_rank}.png')).scaledToHeight(256).scaledToWidth(256))
         self.currentMMR.setText(str(mmr))
 
     def fill_in_favorite(self):
@@ -278,7 +276,6 @@ def get_mmr_rankings(mode):
     soup = BeautifulSoup(rank_page.text, 'lxml')
     ranks = soup.find_all('div', class_='col-md-4')
     for rank in ranks:
-        # print(rank.text)
         rank_name = rank.h3.text.strip()
         if rank_name == 'Unranked':
             continue
