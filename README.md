@@ -4,6 +4,12 @@ All data is found through https://rocketleague.tracker.network/ due to the lack 
 It is a WIP. (The program is just for me, but here it is if someone happens to find it)  
 
 ---
+## To Run
+If you have python (I am running python 3.8 on Windows 10 64 bit), you can run the python file.   
+I recommend running the program with the .pyw extension to hide the console.  
+I will also update the dist folder to contain an up to date executable version of the program.  
+
+---
 ## How it works
 Type your (or someone else's) Steam ID/Custom URL name, Xbox gamertag, or PSN.  
 Choose either 1s, 2s, or 3s ranked.  
