@@ -17,8 +17,8 @@ Choose the platform that corresponds with the Rocket League account.
 
 ## Output
 In the middle, you will see your current mmr in the selected mode.  
-On the left, you will find the mmr needed to get into the next division.   
-On the right, you will find the mmr needed to get into the next rank (Just the first division of the next rank).  
+On the left, you will find the mmr needed to get into the next tier. (Ex. Platinum, Diamond)   
+On the right, you will find the mmr needed to get into the next rank. (Platinum I, Platinum II, Platinum III). 
 
 ---
 ## Favorites
