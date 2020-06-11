@@ -188,7 +188,7 @@ class Ui_rocketleagueranks(object):
         rankings = get_mmr_rankings(ranks[mode])
 
         user = self.playerName.text()
-        url = f'https://rocketleague.tracker.network/profile/steam/{user}'
+        url = f'https://rocketleague.tracker.network/profile/{platform.lower()}/{user}'
         overview_page = requests.get(url)
         soup = BeautifulSoup(overview_page.text, 'lxml')
         try:
