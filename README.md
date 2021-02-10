@@ -1,4 +1,6 @@
 # RocketLeagueRanks
+Old project that no longer works!
+
 This is a small python program that finds your mmr and the mmr needed to get to the next rank/tier.  
 All data is found through https://rocketleague.tracker.network/ due to the lack of a public API.  
 It is a WIP. (The program is just for me, but here it is if someone happens to find it)  
